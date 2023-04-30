@@ -15,7 +15,7 @@ class StoreAuthorRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,8 +45,8 @@ class StoreAuthorRequest extends FormRequest
     public function messages()
     {
         return [
-            'last_name' => 'Last name is required',
-            'first_name' => 'First name is required',
+            'last_name' => 'Last name is required and must be more than 3 characters',
+            'first_name' => 'First name is required, must not be empty',
         ];
     }
 }

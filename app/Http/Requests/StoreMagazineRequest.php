@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreJournalRequest extends FormRequest
+class StoreMagazineRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class StoreJournalRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class StoreJournalRequest extends FormRequest
             'short_description' => 'string|max:200',
             'photo' => 'image:jpg,png,jpeg|max:2048',
             'author_id' => 'required|string|max:60',
-            'journal_release_date' => 'date',
+            'magazine_release_date' => 'date',
         ];
     }
 

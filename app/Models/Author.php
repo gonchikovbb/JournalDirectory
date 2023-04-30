@@ -14,4 +14,34 @@ class Author extends Model
         'first_name',
         'third_name',
     ];
+
+    public function getLastName(): string
+    {
+        return $this->last_name;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->first_name;
+    }
+
+    public function getThirdName(): string
+    {
+        return $this->third_name;
+    }
+
+    public function setFirstName(string $firstName)
+    {
+        $this->first_name = $firstName;
+    }
+
+    public function setLastName(string $lastName)
+    {
+        $this->last_name = $lastName;
+    }
+
+    public function setThirdName(string $thirdName)
+    {
+        $this->third_name = $thirdName;
+    }
 }

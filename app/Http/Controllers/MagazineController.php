@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreJournalRequest;
+use App\Http\Requests\StoreMagazineRequest;
 use App\Models\Magazine;
-use Illuminate\Http\Request;
+use App\Services\MagazineService;
 
 class MagazineController extends Controller
 {
+    private MagazineService $magazineService;
+
+    public function __construct(MagazineService $magazineService)
+    {
+        $this->magazineService = $magazineService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,50 +22,20 @@ class MagazineController extends Controller
      */
     public function index()
     {
-        //
+        return Magazine::simplePaginate(5);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Magazine
      */
-    public function create(StoreJournalRequest $request)
+    public function add(StoreMagazineRequest $request)
     {
-        //
-    }
+        $magazine = Magazine::create($request->all());
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        return $this->magazineService->saveMagazine($magazine, $request->file('photo'));
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Magazine  $magazine
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Magazine $magazine)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Magazine  $magazine
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Magazine $magazine)
-    {
-        //
     }
 
     /**
@@ -66,21 +43,29 @@ class MagazineController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Magazine  $magazine
-     * @return \Illuminate\Http\Response
+     * @return Magazine
      */
-    public function update(Request $request, Magazine $magazine)
+    public function update(StoreMagazineRequest $request, $id)
     {
-        //
+        $magazine = Magazine::query()->find($id);
+
+        $magazine->update($request->all());
+
+        return $this->magazineService->saveMagazine($magazine, $request->file('photo'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Magazine  $magazine
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Magazine $magazine)
+    public function delete($id)
     {
-        //
+        $magazine = Magazine::query()->find($id);
+
+        $magazine->delete();
+
+        return response()->json(['message' => 'User deleted'],200);
     }
 }
