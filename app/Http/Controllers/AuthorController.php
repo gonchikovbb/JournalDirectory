@@ -41,29 +41,10 @@ class AuthorController extends Controller
      */
     public function update(StoreAuthorRequest $request, $id)
     {
-        $data = $request->validated();
 
         $author = Author::query()->find($id);
 
-        if (!empty($data['last_name'])) {
-            if ($data['last_name'] !== $author->getLastName()) {
-                $author->setLastName($data['last_name']);
-            }
-        }
-
-        if (!empty($data['first_name'])) {
-            if ($data['first_name'] !== $author->getFirstName()) {
-                $author->setFirstName($data['first_name']);
-            }
-        }
-
-        if (!empty($data['third_name'])) {
-            if ($data['third_name'] !== $author->getThirdName()) {
-                $author->setThirdName($data['third_name']);
-            }
-        }
-
-        $author->update();
+        $author->update($request->all());
 
         $author->save();
 

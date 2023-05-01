@@ -36,14 +36,11 @@ class MagazineController extends Controller
     {
         $data = $request->validated();
 
-        $magazine = Magazine::create([
-            'name' => $data['name'],
-            'short_description' => $data['short_description'],
-            'magazine_release_date' => $data['magazine_release_date'],
-        ]);
-        $authorIds = Author::find($data['author_ids']);
+        $magazine = Magazine::create($data);
 
-        $magazine->authors()->attach($authorIds);
+        $authors = Author::find($data['author_ids']);
+
+        $magazine->authors()->attach($authors);
 
         return $this->magazineService->saveMagazine($magazine, $request->file('photo'));
 

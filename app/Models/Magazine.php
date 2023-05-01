@@ -17,7 +17,6 @@ class Magazine extends Model
         'short_description',
         'photo_path',
         'photo_name',
-        'author_id',
         'magazine_release_date',
     ];
 
