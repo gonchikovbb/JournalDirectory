@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMagazineRequest;
+use App\Models\Author;
 use App\Models\Magazine;
 use App\Services\MagazineService;
+use Illuminate\Pagination\Paginator;
 
 class MagazineController extends Controller
 {
@@ -18,11 +20,11 @@ class MagazineController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
-    public function index()
+    public function index(): Paginator
     {
-        return Magazine::simplePaginate(5);
+        return Magazine::with('authors')->simplePaginate(5);
     }
 
     /**
@@ -32,7 +34,16 @@ class MagazineController extends Controller
      */
     public function add(StoreMagazineRequest $request)
     {
-        $magazine = Magazine::create($request->all());
+        $data = $request->validated();
+
+        $magazine = Magazine::create([
+            'name' => $data['name'],
+            'short_description' => $data['short_description'],
+            'magazine_release_date' => $data['magazine_release_date'],
+        ]);
+        $authorIds = Author::find($data['author_ids']);
+
+        $magazine->authors()->attach($authorIds);
 
         return $this->magazineService->saveMagazine($magazine, $request->file('photo'));
 

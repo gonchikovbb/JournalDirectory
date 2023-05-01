@@ -29,7 +29,7 @@ class StoreMagazineRequest extends FormRequest
             'name' => 'required|string|max:60',
             'short_description' => 'string|max:200',
             'photo' => 'image:jpg,png,jpeg|max:2048',
-            'author_id' => 'required|string|max:60',
+            'author_ids' => 'required|array|max:60',
             'magazine_release_date' => 'date',
         ];
     }

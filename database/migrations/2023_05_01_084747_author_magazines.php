@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('magazines', function (Blueprint $table) {
+        Schema::create('author_magazines', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('short_description')->nullable();
-            $table->string('photo_path')->nullable();
-            $table->string('photo_name')->nullable();
-            $table->date('magazine_release_date');
+            $table->unsignedBigInteger('magazine_id');
+            $table->unsignedBigInteger('author_id');
+            $table->foreign('magazine_id')->references('id')->on('magazines');
+            $table->foreign('author_id')->references('id')->on('authors');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('magazines');
+        //
     }
 };

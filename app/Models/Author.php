@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Author extends Model
 {
@@ -43,5 +45,10 @@ class Author extends Model
     public function setThirdName(string $thirdName)
     {
         $this->third_name = $thirdName;
+    }
+
+    public function magazines(): BelongsToMany
+    {
+        return $this->belongsToMany(Magazine::class, 'author_magazines', 'author_id', 'magazine_id');
     }
 }
